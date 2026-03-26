@@ -22,9 +22,7 @@ tableList = Module.setDefaultAugs(tableList)
 print(' -- loaded defaults configs')
 
 
--- -- set variables
--- local checkBox1 = false  --(used to track checkbox status )
--- local checkBox2 = true
+
 
 -- function to run the window
 function TbmAugSwapRender(open,tableList) -- FUTURE: redefined locala tableList, this method is bad... did we want a global or something? - may just need to have a different name here...
