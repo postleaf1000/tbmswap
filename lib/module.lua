@@ -1009,6 +1009,21 @@ function M.comboWrapper(idVal,tableName,typeId,isArmor,equipType )
         imgui.PushID(idVal) -- create unique gui object ID
         if imgui.Button('Check All##' .. typeId .. 'A') then
             print('checking all slots for type ' .. typeId)
+            local dynamicKey_isCheckedType = 'isCheckedType' .. typeId
+
+            local slotList = tableName.slotName
+            if isArmor then
+                slotList = tableName.slotName
+            else
+                slotList = {equipType} -- filterTerm
+            end
+
+            for iVal, rowName in ipairs(slotList) do
+                if tableName.InventoryDataTable[rowName].isArmor == isArmor then
+                    -- print(tableName.InventoryDataTable[rowName][dynamicKey_isCheckedType])
+                    tableName.InventoryDataTable[rowName][dynamicKey_isCheckedType] = true
+                end
+            end
         end
         imgui.PopID() -- goes with PushID()
 
@@ -1017,6 +1032,21 @@ function M.comboWrapper(idVal,tableName,typeId,isArmor,equipType )
         imgui.PushID(idVal) -- create unique gui object ID
         if imgui.Button('Check None##' .. typeId .. 'A') then
             print('un-checking all slots for type ' .. typeId)
+            local dynamicKey_isCheckedType = 'isCheckedType' .. typeId
+
+            local slotList = tableName.slotName
+            if isArmor then
+                slotList = tableName.slotName
+            else
+                slotList = {equipType} -- filterTerm
+            end
+
+            for iVal, rowName in ipairs(slotList) do
+                if tableName.InventoryDataTable[rowName].isArmor == isArmor then
+                    -- print(tableName.InventoryDataTable[rowName][dynamicKey_isCheckedType])
+                    tableName.InventoryDataTable[rowName][dynamicKey_isCheckedType] = false
+                end
+            end
         end
         imgui.PopID() -- goes with PushID()
         imgui.SameLine()
