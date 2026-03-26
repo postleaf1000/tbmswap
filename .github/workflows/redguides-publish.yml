@@ -23,5 +23,5 @@ jobs:
         with:
           resource_id: "3012"
           version: "${{ github.ref_name }}"
-          file: "${{ github.event.repository.name }}_${{ github.ref_name }}.zip"
+          file: "${{ github.event.repository.name }}.zip"
           domain: "https://raw.githubusercontent.com/${{ github.repository }}/${{ github.event.repository.default_branch }}/"
