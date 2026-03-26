@@ -1099,8 +1099,8 @@ function M.comboWrapper(idVal,tableName,typeId,isArmor,equipType )
         end
         imgui.SameLine()
         if imgui.Button('Run the script##' .. typeId .. 'A') then
-            print('WARNING: Need to fully test this stuff...')
-            print('  3-10-26: have tested: armor type9 and type5')
+            -- print('WARNING: Need to fully test this stuff...')
+            -- print('  3-10-26: have tested: armor type9 and type5')
 
             print('RUN SCRIPT: Checking type ' .. typeId .. ' augments and solvents...')
 
