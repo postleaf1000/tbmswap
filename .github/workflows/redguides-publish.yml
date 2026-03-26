@@ -2,9 +2,7 @@ name: Publish to RedGuides
 
 on:
   push:
-    tags:
-      - 'v*'
-      - '[0-9]*'
+    branches: [ "main" ]
 
 jobs:
   publish:
