@@ -1082,7 +1082,6 @@ function M.comboWrapper(idVal,tableName,typeId,isArmor,equipType )
         
 
         
-        
         imgui.SameLine()
         if imgui.Button('Run Precheck##' .. typeId .. 'A') then
             print('Checking type ' .. typeId .. ' augments and solvents...')
