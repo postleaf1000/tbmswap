@@ -226,7 +226,10 @@ function M.countAugNeeded(tableName,isArmor)
         
     end
 
+    tableName.currentAugTotalCost = M.computeAugCost(tableName,tableName.currentAugmentNumNeeded)
+
     M.printDebug(string.format('DEBUG countAugNeeded: current num aug needed: ' .. tableName.currentAugmentNumNeeded),debugFlag)
+    M.printDebug(string.format('DEBUG countAugNeeded: current aug total cost: ' .. tableName.currentAugTotalCost),debugFlag)
 
     return tableName -- return the object
 end -- countAugNeeded
@@ -240,6 +243,7 @@ end -- countAugNeeded
 
 -- This function is used to set appropriate flags so that buying actions are initiated
 function M.initiateBuyItem(tableName,buyTargetName)
+    local conditionCheckFlag = false
     if buyTargetName == 'solvent' then
         if tableName.currentSolvNumNeeded > 0 then
             print('initiateBuyItem: Need to purchase solvents')
@@ -250,7 +254,15 @@ function M.initiateBuyItem(tableName,buyTargetName)
         end
 
     elseif buyTargetName == 'aug' then
-        if tableName.currentAugmentNumNeeded > 0 then
+
+        if tableName.currentAugTotalCost > mq.TLO.Me.AltCurrency('Remnants of Tranquility')() then
+            print('DEBUG: Not enough Remnants to purchase the necessary augments')
+            conditionCheckFlag = false
+        else
+            conditionCheckFlag = true
+        end
+
+        if tableName.currentAugmentNumNeeded > 0 and conditionCheckFlag then
             print('initiateBuyItem: Need to purchase Aug')
             tableName.doBuyAugFlag = true
         else
@@ -649,6 +661,32 @@ function M.sellOldAug(tableName)
 end
 
 
+function M.computeAugCost(tableName,numAugToBuy)
+    local level = tableName.augPrefixIndex
+    local count = numAugToBuy
+    local cost = 0
+    print('DEBUG: computeAugCost: level ' .. level)
+    if level == 1 then
+        cost = count * 50
+    elseif level == 2 then
+        cost = count * 90
+    elseif level == 3 then
+        cost = count * 190
+    elseif level == 4 then
+        cost = count * 380
+    elseif level == 5 then
+        cost = count * 630
+    elseif level == 6 then
+        cost = count * 940
+    elseif level == 7 then
+        cost = count * 1250
+    end
+    print('DEBUG: computeAugCost: cost ' .. cost)
+
+    return cost
+
+
+end
 
 
 
@@ -1095,6 +1133,9 @@ function M.comboWrapper(idVal,tableName,typeId,isArmor,equipType )
             tableName.currentAugName = M.genAugNames(tableName,isArmor) -- FUTURE: set the table.desiredNameType9 and 5 and 6 and...
             
             M.countAugNeeded(tableName,isArmor) -- set flagForRemovalType<>
+            if tableName.currentAugTotalCost > mq.TLO.Me.AltCurrency('Remnants of Tranquility')() then
+                print('DEBUG: Not enough Remnants to purchase the necessary augments')
+            end
         end
         imgui.SameLine()
         if imgui.Button('Run the script##' .. typeId .. 'A') then
